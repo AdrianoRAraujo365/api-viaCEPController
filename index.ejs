@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🔍 Buscar CEP</h1>
+      <p class="subtitle">Encontre informações de endereço pelo CEP</p>
+    </header>
+
+    <main class="main">
+      <!-- Formulário de Busca -->
+      <section class="search-section">
+        <form action="/buscar" method="POST" class="form">
+          <div class="form-group">
+            <label for="cep" class="label">Digite o CEP:</label>
+            <input 
+              type="text" 
+              id="cep" 
+              name="cep" 
+              class="input" 
+              placeholder="Ex: 01310100"
+              maxlength="8"
+              required
+            >
+          </div>
+          <button type="submit" class="btn">Buscar</button>
+        </form>
+      </section>
+
+      <!-- Exibição de Erros -->
+      <% if (erro) { %>
+        <section class="alert alert-error">
+          <span class="alert-icon">⚠️</span>
+          <p><%= erro %></p>
+        </section>
+      <% } %>
+
+      <!-- Exibição de Resultados -->
+      <% if (resultado) { %>
+        <section class="results-section">
+          <h2 class="results-title">✅ Dados Encontrados</h2>
+          
+          <div class="results-grid">
+            <div class="result-item">
+              <span class="result-label">CEP</span>
+              <span class="result-value"><%= resultado.cep %></span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">Logradouro</span>
+              <span class="result-value"><%= resultado.logradouro || 'Não informado' %></span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">Número</span>
+              <span class="result-value"><%= resultado.complemento || 'Sem número' %></span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">Bairro</span>
+              <span class="result-value"><%= resultado.bairro || 'Não informado' %></span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">Localidade</span>
+              <span class="result-value"><%= resultado.localidade %></span>
+            </div>
+
+            <div class="result-item">
+              <span class="result-label">UF (Estado)</span>
+              <span class="result-value"><%= resultado.uf %></span>
+            </div>
+
+            <% if (resultado.ibge) { %>
+              <div class="result-item">
+                <span class="result-label">IBGE</span>
+                <span class="result-value"><%= resultado.ibge %></span>
+              </div>
+            <% } %>
+
+            <% if (resultado.gia) { %>
+              <div class="result-item">
+                <span class="result-label">GIA</span>
+                <span class="result-value"><%= resultado.gia %></span>
+              </div>
+            <% } %>
+
+            <% if (resultado.ddd) { %>
+              <div class="result-item">
+                <span class="result-label">DDD</span>
+                <span class="result-value"><%= resultado.ddd %></span>
+              </div>
+            <% } %>
+
+            <% if (resultado.siafi) { %>
+              <div class="result-item">
+                <span class="result-label">SIAFI</span>
+                <span class="result-value"><%= resultado.siafi %></span>
+              </div>
+            <% } %>
+          </div>
+
+          <div class="json-section">
+            <h3 class="json-title">📋 JSON Completo</h3>
+            <pre class="json-display"><%= JSON.stringify(resultado, null, 2) %></pre>
+          </div>
+        </section>
+      <% } %>
+    </main>
+
+    <footer class="footer">
+      <p>Consumindo dados da API <strong>ViaCEP</strong> | MVC Architecture</p>
+    </footer>
+  </div>
+</body>
+</html>
